@@ -36,6 +36,12 @@ the index in 11 of 20 years.
   the 2006 pick. The whole class of "extreme prior-year winners" happened to contain the
   great tech compounders of 2006 to 2026.
 
+## Follow-up
+
+`strategies/` tests 41 mechanical selection rules (top-N baskets, rank buckets, longer
+momentum, volatility and consistency filters, contrarian) on the same universe and scores
+them by how often they beat the index. See `strategies/README.md`.
+
 ## Method
 
 * `yahoo_prices.txt`: Yahoo Finance daily data (split- and dividend-adjusted closes), first

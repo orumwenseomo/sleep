@@ -1,0 +1,282 @@
+<title>Which Rule Wins More Often</title>
+<meta name="description" content="41 selection rules on the S&P 500, 2006 to 2026, scored by how often they beat the index">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f4f6f8; --paper-2:#ffffff; --ink:#14181d; --ink-2:#4f5966; --ink-3:#7b8592; --rule:#d7dde3; --rule-2:#e6eaee;
+  --accent:#1f4f7a; --pick:#2a78d6; --spx:#eb6834; --pick-soft:#dbe8fa;
+  --pos:#2a78d6; --neg:#e34948; --mid:#f0efec; --tip-bg:#14181d; --tip-ink:#ffffff; --band:#e6eaee;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15181c; --paper-2:#1d2126; --ink:#eef0f2; --ink-2:#b4bcc6; --ink-3:#8791a0; --rule:#343a42; --rule-2:#272c33;
+    --accent:#8fb8e0; --pick:#3987e5; --spx:#d95926; --pick-soft:#1e3350;
+    --pos:#3987e5; --neg:#e66767; --mid:#383835; --tip-bg:#eef0f2; --tip-ink:#14181d; --band:#272c33;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15181c; --paper-2:#1d2126; --ink:#eef0f2; --ink-2:#b4bcc6; --ink-3:#8791a0; --rule:#343a42; --rule-2:#272c33;
+  --accent:#8fb8e0; --pick:#3987e5; --spx:#d95926; --pick-soft:#1e3350;
+  --pos:#3987e5; --neg:#e66767; --mid:#383835; --tip-bg:#eef0f2; --tip-ink:#14181d; --band:#272c33;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:980px;margin:0 auto;padding:40px 24px 80px}
+.prose{max-width:680px}
+h1,h2,h3{font-family:"Newsreader",Georgia,"Times New Roman",serif;font-weight:500;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(34px,5vw,50px)}
+h2{font-size:28px;margin-top:64px;padding-top:20px;border-top:1px solid var(--rule)}
+h3{font-size:20px;margin-top:28px}
+p{margin:14px 0}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:14px}
+.lede{font-size:19px;color:var(--ink-2);margin-top:18px}
+.num,td.num,th.num{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.verdict{margin-top:36px;padding:22px 24px;background:var(--paper-2);border:1px solid var(--rule);border-left:4px solid var(--accent)}
+.verdict p{margin:8px 0}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+.tile{padding:16px 18px;background:var(--paper-2);border:1px solid var(--rule)}
+.tile .l{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.tile .v{font-family:"Newsreader",Georgia,serif;font-size:34px;font-weight:500;margin-top:6px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .s{font-size:13px;color:var(--ink-2);margin-top:6px}
+@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+figure{margin:28px 0 0;padding:0}
+figcaption{font-size:13px;color:var(--ink-2);margin-top:10px;max-width:680px}
+.legend{display:flex;gap:18px;font-size:13px;color:var(--ink-2);margin:6px 0 10px;flex-wrap:wrap;align-items:center}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
+.legend .lp::before{background:var(--pick)} .legend .lb::before{background:var(--band);border-radius:0;width:14px}
+.legend .lg::before{background:var(--pos)} .legend .lr::before{background:var(--neg)}
+.chart{position:relative;background:var(--paper-2);border:1px solid var(--rule);padding:14px 10px 6px;overflow-x:auto}
+.chart svg{display:block;width:100%;height:auto;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.chart .ax{fill:var(--ink-3);font-size:11px}
+.chart .grid{stroke:var(--rule-2);stroke-width:1}
+.chart .base{stroke:var(--rule);stroke-width:1}
+.chart .lbl{fill:var(--ink);font-size:11.5px;font-family:"IBM Plex Mono",monospace}
+.chart .yl{fill:var(--ink-2);font-size:12px}
+.chart .fam{fill:var(--ink-3);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.chart .tk{fill:var(--ink-3);font-size:12px;font-family:"IBM Plex Mono",monospace}
+.chart .cell-t{font-size:10px;font-family:"IBM Plex Mono",monospace;pointer-events:none}
+.tip{position:absolute;pointer-events:none;background:var(--tip-bg);color:var(--tip-ink);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:3px;max-width:280px;opacity:0;transform:translate(-50%,-100%);transition:opacity .08s;white-space:nowrap}
+.tip b{font-weight:600}
+.hit{fill:transparent}
+.hit:hover{fill:var(--rule-2);fill-opacity:.5}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:20px}
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--paper-2)}
+th{font-weight:500;color:var(--ink-3);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;text-align:left;padding:10px 10px;border-bottom:1px solid var(--rule);white-space:normal;line-height:1.25}
+td{padding:6px 10px;border-bottom:1px solid var(--rule-2);vertical-align:top;white-space:nowrap}
+td:nth-child(1){white-space:normal;min-width:220px}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+td.win{color:var(--pos);font-weight:500} td.lose{color:var(--neg)}
+tr.fam td{background:var(--paper);color:var(--ink-3);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;padding-top:10px}
+tr.hl td{background:var(--pick-soft)}
+ul{padding-left:20px} li{margin:6px 0}
+.src{font-size:13px;color:var(--ink-2)}
+.src li{margin:4px 0}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+</style>
+
+<div class="wrap">
+<div class="prose">
+<div class="eyebrow">Follow-up · S&P 500 · 2006 to Aug 2026</div>
+<h1>Which rule wins more often?</h1>
+<p class="lede">The reel's rule, buying last year's single best S&P 500 stock, beat the index in about half of its twenty years. This page tries 41 mechanical rules built from the same raw material, prior returns and volatility of index members, and scores each one by how many years it beat the S&P 500 total-return index, not just by how much money it made.</p>
+
+<div class="verdict">
+<p><strong>Nothing wins reliably, but a small basket of last year's winners is the most consistent thing in the set.</strong></p>
+<p>The best hit rate is 14 of 20 years, shared by two near-identical rules: the top three stocks of the prior year, held equal-weight for one year, and the top three by twelve-month momentum skipping December. Both compounded at 17 to 21 percent a year against 11 percent for the index. A random three-stock basket reaches 14 wins about 3 percent of the time, so across 41 rules a result like this was more likely than not to appear by luck. The pattern that survives scrutiny is structural: spreading the bet from one stock to three to ten raises the hit rate from 10 to 14 to 12 and lifts the median year from a loss to a gain. Nearly all of that edge came after 2014.</p>
+</div>
+</div>
+
+<div class="tiles">
+  <div class="tile"><div class="l">Random 3-stock basket</div><div class="v">9.5<span style="font-size:18px;color:var(--ink-3)"> /20</span></div><div class="s">years beating the index, on average (sd 2.2)</div></div>
+  <div class="tile"><div class="l">Reel's rule (#1)</div><div class="v">10<span style="font-size:18px;color:var(--ink-3)"> /20</span></div><div class="s">median year 1.3 points behind the index</div></div>
+  <div class="tile"><div class="l">Top 3, equal-weight</div><div class="v">14<span style="font-size:18px;color:var(--ink-3)"> /20</span></div><div class="s">median year 12.5 points ahead · 20.6% a year</div></div>
+  <div class="tile"><div class="l">Top 10, equal-weight</div><div class="v">12<span style="font-size:18px;color:var(--ink-3)"> /20</span></div><div class="s">median year 3.7 points ahead · 10.2% a year</div></div>
+</div>
+
+<div class="prose">
+<h2>Hit rate, rule by rule</h2>
+<p>Each dot is one rule's number of winning years out of twenty, holding for one year and rebalancing every January. The grey band is where random baskets land: nine or ten wins is normal, twelve is unremarkable, fourteen is rare but not impossible. Anything inside the band is indistinguishable from picking stocks at random.</p>
+</div>
+<figure>
+<div class="legend"><span class="lp">Years the rule beat the index (of 20)</span><span class="lb">Random-basket range, mean ± 1 sd</span></div>
+<div class="chart" id="hitrate"></div>
+<figcaption>One-year holds, purchase years 2006 to 2025, equal-weight baskets, S&P 500 total-return index as the benchmark. Hover for each rule's median excess return and compound growth rate. The 5-year momentum rule has 18 years of data.</figcaption>
+</figure>
+
+<div class="prose">
+<h2>When each rule won</h2>
+<p>A hit rate hides <em>when</em> the wins came. This grid shows each year's excess return over the index for the most instructive rules. Blue is a year ahead of the index, red a year behind, and the shade is the size of the gap. Read across a row and the regime dependence is obvious: baskets of prior-year winners lost most of 2006 to 2014 and then won almost everything from 2015 on, while the defensive rules did the reverse.</p>
+</div>
+<figure>
+<div class="legend"><span class="lg">Ahead of the index</span><span class="lr">Behind the index</span></div>
+<div class="chart" id="heat"></div>
+<figcaption>Excess return in percentage points for a one-year hold. Cells beyond ±40 points are capped in colour but keep their value on hover.</figcaption>
+</figure>
+
+<div class="prose">
+<h2>What the numbers say</h2>
+<ul>
+<li><b>Diversifying the winners helps consistency more than anything else.</b> From the #1 stock to the top 3 to the top 10: hit rate 10, 14, 12; median year -1.3, +12.5, +3.7 points; hold-to-2026 wins 12, 15, 16 of 20. The single stock has the fattest tails (Nvidia 2017, AMD 2019, Nvidia 2024) and the worst medians.</li>
+<li><b>Single-rank picks are noise.</b> The #1, #2, #3, #5 and #10 stocks of the prior year won 10, 7, 13, 6 and 7 years. Number three looks brilliant only because it landed on Nvidia in 2016, a 215-point year.</li>
+<li><b>The edge is a 2015-to-2025 story.</b> The top-3 basket beat the index in 4 of 9 years to 2014 and 10 of 11 after. Its bad years were brutal: -56% in 2008, 36 points behind in 2009, 35 behind in 2011, 20 behind in 2023.</li>
+<li><b>Defensive filters top out at 11 wins and give up the upside.</b> Lowest-volatility baskets and "beat the index last year but low-vol" baskets win in 2008, 2011 and 2022 and lose in the up years; held to 2026 they beat their index twin in 1 to 5 years out of 20.</li>
+<li><b>Contrarian rules are coin flips with fat tails.</b> Buying the worst stock of the prior year won 9 years and compounded at -24% a year. This family is also the one survivorship bias flatters most, because the names that went to zero are not in the data.</li>
+<li><b>The base rate is falling.</b> Around half of index members beat the cap-weighted index in a typical year to 2022, but only 28 to 31 percent in 2023 to 2025, when a few mega-caps carried the index. Every equal-weight rule now starts the year behind.</li>
+</ul>
+
+<h2>All 41 rules</h2>
+</div>
+<div class="tablewrap"><table id="tbl"></table></div>
+<div class="prose">
+<p class="src">One-year hold: years beating the index, median and mean excess return, compound annual growth (index: 11.0%). Hold-to-2026: total value of twenty $1,000 purchases on 31 Aug 2026 (index: $105,412) and years the purchase beat its index twin. Shaded rows are the ones discussed above.</p>
+
+<h2>So what would you actually do?</h2>
+<p>If the goal is to beat the index in more years than not, the only rules here that got to 70 percent are small baskets of last year's biggest winners, rebalanced annually. Treat that as a hypothesis, not a finding: it is the momentum effect the academic literature has documented since the 1990s, it worked spectacularly in the 2015 to 2025 growth regime, and it did nothing in the nine years before that. It also carries the full cost of being wrong, with a -56% year in the sample, plus 100 percent annual turnover and the taxes that go with it. Nothing tested here beats the index reliably, and a 14-of-20 record from 41 attempts is exactly what luck would produce. A plain index fund won every one of these comparisons on consistency per unit of risk.</p>
+
+<h2>Method and caveats</h2>
+<ul class="src">
+<li>Universe: members of the S&P 500 at the prior year-end (constituent history from the fja05680/sp500 dataset), limited to the 700 tickers Yahoo Finance still serves. About 270 delisted names are missing, which flatters every rule and the contrarian ones most.</li>
+<li>Prices: Yahoo monthly split- and dividend-adjusted closes; the ratio of two closes is a total return. Selection uses only data through the prior December. Baskets are equal-weight. No transaction costs or taxes.</li>
+<li>Null distribution: 800 random equal-weight baskets per size, drawn from the same universe each year. Mean wins 9.1 (1 stock), 9.5 (3 stocks), 9.7 (10 stocks); 14 or more wins occurs 1.6%, 3.4% and 2.9% of the time.</li>
+<li>Code and data are in the repository alongside this page (experiments/prior-year-winner/strategies).</li>
+</ul>
+</div>
+</div>
+
+<script>
+const YEARS=[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+// family, rule, wins, median excess %, mean excess %, CAGR %, hold-to-2026 $, hold wins, highlight?
+const R=[
+["Single stock by prior-year rank","Reel: #1 of prior year",10,-1.3,22.0,19.4,240355,12,1],
+["Single stock by prior-year rank","#2",7,-2.7,-0.4,8.0,332699,7,0],
+["Single stock by prior-year rank","#3",13,19.0,23.1,23.3,886377,13,0],
+["Single stock by prior-year rank","#5",6,-19.3,-8.1,-3.0,151350,3,0],
+["Single stock by prior-year rank","#10",7,-4.6,6.6,13.7,146121,9,0],
+["Single stock by prior-year rank","Worst 1",9,-18.8,16.9,-23.7,731811,5,0],
+["Baskets of prior-year winners","Top 3 equal-weight",14,12.5,14.9,20.6,486477,15,1],
+["Baskets of prior-year winners","Top 5",10,3.7,4.6,12.2,333455,14,0],
+["Baskets of prior-year winners","Top 10",12,3.7,1.2,10.2,227647,16,1],
+["Baskets of prior-year winners","Top 25",10,0.9,-1.1,8.6,200828,15,0],
+["Baskets of prior-year winners","Top 50 (decile)",10,-0.7,-0.9,9.7,154378,15,0],
+["Rank buckets of the prior year","Ranks 2-5",7,-2.7,0.2,8.4,356730,11,0],
+["Rank buckets of the prior year","Ranks 6-10",8,-4.3,-2.1,7.0,121839,11,0],
+["Rank buckets of the prior year","Ranks 11-25",9,-1.9,-2.7,7.4,182948,9,0],
+["Rank buckets of the prior year","Ranks 26-50",8,-1.5,-0.6,10.4,107928,8,0],
+["Rank buckets of the prior year","Ranks 51-100",8,-1.1,-0.9,10.2,98522,5,0],
+["Rank buckets of the prior year","Ranks 101-200",12,1.2,-0.5,10.9,98306,2,0],
+["Rank buckets of the prior year","Middle 50",12,1.2,0.6,12.0,108661,7,0],
+["Rank buckets of the prior year","Bottom 50",10,0.6,1.2,10.1,197196,10,0],
+["Rank buckets of the prior year","Bottom 10",9,-4.7,2.8,7.7,289252,12,0],
+["Longer momentum","3-yr momentum #1",13,26.0,24.0,20.9,599363,12,0],
+["Longer momentum","3-yr momentum top 10",12,6.4,2.5,10.6,236193,15,0],
+["Longer momentum","5-yr momentum top 10 (18 yrs)",10,2.9,5.6,13.2,159065,16,0],
+["Longer momentum","12-1 momentum #1",8,-2.5,12.1,12.7,291180,11,0],
+["Longer momentum","Top 3 by 12-1 momentum",14,10.1,10.1,17.2,462421,14,1],
+["Longer momentum","12-1 momentum top 10",11,4.4,-0.5,8.6,224284,16,0],
+["Longer momentum","12-1 momentum top 50",12,2.4,0.1,10.7,147900,13,0],
+["Volatility and consistency filters","Lowest vol 10",10,0.0,-2.6,9.0,68841,3,0],
+["Volatility and consistency filters","Lowest vol 50",9,-1.5,-1.9,9.9,87684,1,0],
+["Volatility and consistency filters","Highest vol 10",11,4.3,8.9,15.8,341206,14,0],
+["Volatility and consistency filters","Top 50 by return, lowest-vol 10",11,1.3,-1.5,9.2,91533,4,0],
+["Volatility and consistency filters","Top 100 by return, lowest-vol 25",11,0.8,-1.0,10.3,85132,2,0],
+["Volatility and consistency filters","Beat index last yr, lowest-vol 10",11,1.1,-2.5,8.9,79724,3,0],
+["Volatility and consistency filters","Beat index last yr, lowest-vol 25",11,1.8,-0.4,11.2,104839,5,1],
+["Volatility and consistency filters","Up 3 yrs running, top 3 last yr",9,-4.6,-1.9,6.2,431725,14,0],
+["Volatility and consistency filters","Up 3 yrs running, top 5 last yr",8,-5.2,-2.4,6.9,291375,11,0],
+["Volatility and consistency filters","Up 3 yrs running, top 10 last yr",9,-3.9,-1.9,7.8,188631,11,0],
+["Volatility and consistency filters","Up 3 yrs running, top 25 last yr",10,0.1,-1.5,8.9,160282,9,0],
+["Volatility and consistency filters","Up 3 yrs running, best 3-yr top 10",11,1.8,-1.0,7.4,210159,13,0],
+["Benchmarks","All constituents equal-weight",9,-0.2,-0.1,10.9,126385,11,1],
+];
+const HEAT=[
+["Reel: #1 of prior year",[-16,-10,-30,-23,9,-63,-10,-19,-21,1,-4,60,44,117,82,21,69,-30,146,117]],
+["Top 3 equal-weight",[-15,6,-19,-36,10,-35,8,-4,4,23,70,19,19,36,52,37,15,-20,80,46]],
+["Top 10",[2,-6,-18,-26,8,-25,-7,11,-2,9,4,3,-3,10,25,15,6,-23,21,20]],
+["Top 50 (decile)",[-4,-4,-8,-18,13,-10,-3,9,3,3,-3,1,-2,-3,13,3,9,-21,2,3]],
+["Top 3 by 12-1 momentum",[-15,6,-19,-38,21,-35,8,-4,4,23,70,19,19,6,25,37,13,-17,53,26]],
+["3-yr momentum top 10",[4,26,-25,-8,15,-15,0,13,9,11,-13,4,11,9,29,16,-18,-25,-2,8]],
+["Middle 50",[1,0,7,7,9,5,1,-1,1,5,2,-1,2,2,-1,-4,8,-7,-16,-5]],
+["Lowest vol 50",[6,-1,11,-12,1,15,-5,-8,0,3,3,-3,2,-2,-15,-6,12,-25,-6,-7]],
+["Beat index last yr, lowest-vol 25",[5,5,12,-15,5,15,-8,-4,3,5,2,-4,2,-1,-15,-1,12,-32,-1,8]],
+["Bottom 10",[-23,-20,-13,91,19,-13,73,24,3,-35,44,3,-5,-5,-29,1,-8,22,-64,-11]],
+["All constituents equal-weight",[0,-1,0,15,6,-1,3,6,1,-2,4,0,-2,-2,-8,1,8,-10,-12,-6]],
+];
+const IDX=[15.8,5.5,-37.0,26.5,15.1,2.1,16.0,32.4,13.7,1.4,12.0,21.8,-4.4,31.5,18.4,28.7,-18.1,26.3,25.0,17.9];
+const usd=v=>"$"+Math.round(v).toLocaleString("en-US");
+const pp=v=>(v>0?"+":"")+v.toFixed(1);
+const svgNS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){const e=document.createElementNS(svgNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function tooltip(c){const t=document.createElement("div");t.className="tip";c.appendChild(t);return{show(h,x,y){t.innerHTML=h;t.style.left=x+"px";t.style.top=(y-8)+"px";t.style.opacity=1;},hide(){t.style.opacity=0;}};}
+function place(c,x,y,W,H){const b=c.getBoundingClientRect(),s=c.querySelector("svg").getBoundingClientRect();return [x/W*s.width+(s.left-b.left), y/H*s.height+(s.top-b.top)];}
+
+// ---- hit-rate dot chart, grouped by family
+(function(){
+  const c=document.getElementById("hitrate"),tip=tooltip(c);
+  const fams=[...new Set(R.map(r=>r[0]))];
+  const rowH=20,famGap=26,padL=250,padR=30,padT=30,padB=30,W=940;
+  let H=padT+padB; fams.forEach(f=>{H+=famGap+rowH*R.filter(r=>r[0]===f).length;});
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Years each rule beat the index, out of 20"},c);
+  const x=v=>padL+(v/20)*(W-padL-padR);
+  // random band: mean 9.5 sd 2.2 for 3-stock baskets
+  el("rect",{x:x(9.5-2.2),y:padT-6,width:x(9.5+2.2)-x(9.5-2.2),height:H-padT-padB+6,fill:"var(--band)"},svg);
+  for(let v=0;v<=20;v+=2){el("line",{x1:x(v),x2:x(v),y1:padT-6,y2:H-padB,class:"grid"},svg);const t=el("text",{x:x(v),y:padT-12,"text-anchor":"middle",class:"tk"},svg);t.textContent=v;}
+  el("line",{x1:x(10),x2:x(10),y1:padT-6,y2:H-padB,stroke:"var(--ink-3)","stroke-dasharray":"2 4"},svg);
+  const t0=el("text",{x:x(20),y:H-padB+18,"text-anchor":"end",class:"ax"},svg);t0.textContent="years beating the index, of 20";
+  let y=padT;
+  fams.forEach(f=>{
+    y+=famGap; const ft=el("text",{x:padL-236,y:y-8,class:"fam"},svg); ft.textContent=f;
+    R.filter(r=>r[0]===f).forEach(r=>{
+      const cy=y+rowH/2;
+      const lab=el("text",{x:padL-12,y:cy+4,"text-anchor":"end",class:"yl"},svg); lab.textContent=r[1]; if(r[8]) lab.setAttribute("font-weight","600");
+      el("line",{x1:padL,x2:x(r[2]),y1:cy,y2:cy,stroke:"var(--rule)","stroke-width":1.5},svg);
+      el("circle",{cx:x(r[2]),cy:cy,r:5.5,fill:r[2]>=13?"var(--pick)":"var(--ink-3)",stroke:"var(--paper-2)","stroke-width":2},svg);
+      const hit=el("rect",{x:0,y:y,width:W,height:rowH,class:"hit"},svg);
+      hit.addEventListener("mousemove",()=>{const [px,py]=place(c,x(r[2]),y,W,H);tip.show(`<b>${r[1]}</b><br>Beat the index in <b>${r[2]}</b> of 20 years<br>Median year ${pp(r[3])} pts · CAGR ${r[5].toFixed(1)}% vs 11.0%<br>Held to 2026: ${usd(r[6])} vs $105,412, won ${r[7]}/20`,Math.min(Math.max(px,150),c.clientWidth-150),py);});
+      hit.addEventListener("mouseleave",()=>tip.hide());
+      y+=rowH;
+    });
+  });
+})();
+
+// ---- heatmap of per-year excess
+(function(){
+  const c=document.getElementById("heat"),tip=tooltip(c);
+  const padL=230,padT=44,padR=10,padB=10,W=940,cw=(W-padL-padR)/YEARS.length,ch=26,H=padT+ch*HEAT.length+padB;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Excess return over the index by rule and year"},c);
+  const mix=(v)=>{ // v in [-1,1] -> blend from mid to pos/neg via opacity overlay
+    return v>=0?`var(--pos)`:`var(--neg)`; };
+  YEARS.forEach((yr,j)=>{const t=el("text",{x:padL+cw*j+cw/2,y:padT-22,"text-anchor":"middle",class:"tk"},svg);t.textContent=String(yr).slice(2);
+    const t2=el("text",{x:padL+cw*j+cw/2,y:padT-8,"text-anchor":"middle",class:"ax"},svg);t2.textContent=(IDX[j]>0?"+":"")+Math.round(IDX[j]);});
+  const hl=el("text",{x:padL-8,y:padT-8,"text-anchor":"end",class:"ax"},svg);hl.textContent="index return %";
+  const hl2=el("text",{x:padL-8,y:padT-22,"text-anchor":"end",class:"ax"},svg);hl2.textContent="purchase year";
+  HEAT.forEach((row,i)=>{
+    const yy=padT+ch*i; const lab=el("text",{x:padL-10,y:yy+ch/2+4,"text-anchor":"end",class:"yl"},svg);lab.textContent=row[0];
+    row[1].forEach((v,j)=>{
+      const a=Math.min(Math.abs(v),40)/40; const xx=padL+cw*j;
+      el("rect",{x:xx+1,y:yy+1,width:cw-2,height:ch-2,fill:"var(--mid)"},svg);
+      el("rect",{x:xx+1,y:yy+1,width:cw-2,height:ch-2,fill:mix(v),"fill-opacity":0.12+0.88*a},svg);
+      const tx=el("text",{x:xx+cw/2,y:yy+ch/2+3.5,"text-anchor":"middle",class:"cell-t",fill:a>0.45?"#fff":"var(--ink)"},svg);tx.textContent=(v>0?"+":"")+v;
+      const hit=el("rect",{x:xx,y:yy,width:cw,height:ch,fill:"transparent"},svg);
+      hit.addEventListener("mousemove",()=>{const [px,py]=place(c,xx+cw/2,yy,W,H);tip.show(`<b>${row[0]}</b>, bought Jan ${YEARS[j]}<br>${v>0?"+":""}${v} points vs the index (index ${IDX[j]>0?"+":""}${IDX[j]}%)`,Math.min(Math.max(px,140),c.clientWidth-140),py);});
+      hit.addEventListener("mouseleave",()=>tip.hide());
+    });
+  });
+})();
+
+// ---- table
+(function(){
+  const t=document.getElementById("tbl");
+  t.innerHTML=`<thead><tr><th>Rule</th><th class="num">Years beat index</th><th class="num">Median excess</th><th class="num">Mean excess</th><th class="num">CAGR, 1-yr holds</th><th class="num">Held to 2026</th><th class="num">Hold wins</th></tr></thead>`;
+  const tb=document.createElement("tbody"); let fam="";
+  R.forEach(r=>{
+    if(r[0]!==fam){fam=r[0];const f=document.createElement("tr");f.className="fam";f.innerHTML=`<td colspan="7">${fam}</td>`;tb.appendChild(f);}
+    const tr=document.createElement("tr"); if(r[8]) tr.className="hl";
+    tr.innerHTML=`<td>${r[1]}</td><td class="num ${r[2]>=13?"win":(r[2]<=8?"lose":"")}">${r[2]}</td><td class="num">${pp(r[3])}</td><td class="num">${pp(r[4])}</td><td class="num">${r[5].toFixed(1)}%</td><td class="num">${usd(r[6])}</td><td class="num">${r[7]}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+})();
+</script>
