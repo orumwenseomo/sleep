@@ -1,0 +1,717 @@
+{
+ "end_date": "2026-08-31",
+ "reel": [
+  {
+   "year": 2006,
+   "ticker": "AAPL",
+   "name": "Apple",
+   "value": 141722.95030639172,
+   "spx": 8973.579178304915,
+   "approx": false,
+   "fwd1": 0.13499127789953924,
+   "spx1": 0.13922640388543783,
+   "prev": null
+  },
+  {
+   "year": 2007,
+   "ticker": "ATI",
+   "name": "Allegheny Technologies",
+   "value": 2771.9105821283715,
+   "spx": 7884.8768675078245,
+   "approx": false,
+   "fwd1": -0.017638690550526803,
+   "spx1": 0.056004847064216934,
+   "prev": null
+  },
+  {
+   "year": 2008,
+   "ticker": "NOV",
+   "name": "National Oilwell Varco",
+   "value": 407.3331445583047,
+   "spx": 7574.498333978399,
+   "approx": false,
+   "fwd1": -0.6756889650791706,
+   "spx1": -0.360880763297459,
+   "prev": null
+  },
+  {
+   "year": 2009,
+   "ticker": "FDO",
+   "name": "Family Dollar",
+   "value": 3707.1329497506717,
+   "spx": 11486.315427870088,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.22567820860876342,
+   "prev": null
+  },
+  {
+   "year": 2010,
+   "ticker": "XL",
+   "name": "XL Capital",
+   "value": 3444.626295690126,
+   "spx": 9223.023672349917,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.13241668010579843,
+   "prev": null
+  },
+  {
+   "year": 2011,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 31800.525758229684,
+   "spx": 8053.098021793013,
+   "approx": false,
+   "fwd1": -0.6116059167418684,
+   "spx1": 0.009652480942804909,
+   "prev": null
+  },
+  {
+   "year": 2012,
+   "ticker": "COG",
+   "name": "Cabot Oil & Gas (later Coterra)",
+   "value": 2191.8630545496794,
+   "spx": 7854.378893193711,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.14232804881992567,
+   "prev": null
+  },
+  {
+   "year": 2013,
+   "ticker": "PHM",
+   "name": "PulteGroup",
+   "value": 7992.710890638051,
+   "spx": 6704.148060189601,
+   "approx": false,
+   "fwd1": 0.10464174533674186,
+   "spx1": 0.2908411749819937,
+   "prev": null
+  },
+  {
+   "year": 2014,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 15637.359881152208,
+   "spx": 5239.295468671991,
+   "approx": false,
+   "fwd1": -0.05845922324477626,
+   "spx1": 0.1468803004506145,
+   "prev": null
+  },
+  {
+   "year": 2015,
+   "ticker": "LUV",
+   "name": "Southwest Airlines",
+   "value": 1030.913646089827,
+   "spx": 4569.223164854091,
+   "approx": false,
+   "fwd1": 0.015502521478263587,
+   "spx1": 0.014042105300585472,
+   "prev": null
+  },
+  {
+   "year": 2016,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 7370.862131684248,
+   "spx": 4574.916378630124,
+   "approx": false,
+   "fwd1": 0.12586395052746457,
+   "spx1": 0.13673527294174548,
+   "prev": null
+  },
+  {
+   "year": 2017,
+   "ticker": "NVDA",
+   "name": "Nvidia",
+   "value": 87991.71017496313,
+   "spx": 3990.6419118384383,
+   "approx": false,
+   "fwd1": 0.9043083177234865,
+   "spx1": 0.2080331486778193,
+   "prev": null
+  },
+  {
+   "year": 2018,
+   "ticker": "ALGN",
+   "name": "Align Technology",
+   "value": 711.3792182352418,
+   "spx": 3276.069797502028,
+   "approx": false,
+   "fwd1": -0.06762532276734035,
+   "spx1": -0.05175896458175622,
+   "prev": null
+  },
+  {
+   "year": 2019,
+   "ticker": "AMD",
+   "name": "AMD",
+   "value": 24998.406797663305,
+   "spx": 3450.5023794824156,
+   "approx": false,
+   "fwd1": 1.4354753053637812,
+   "spx1": 0.31319324257812275,
+   "prev": null
+  },
+  {
+   "year": 2020,
+   "ticker": "AMD",
+   "name": "AMD",
+   "value": 9586.965376782076,
+   "spx": 2605.414424242241,
+   "approx": false,
+   "fwd1": 0.8678207739307533,
+   "spx1": 0.17400660282723246,
+   "prev": null
+  },
+  {
+   "year": 2021,
+   "ticker": "TSLA",
+   "name": "Tesla",
+   "value": 1512.5996529591991,
+   "spx": 2252.365122487499,
+   "approx": false,
+   "fwd1": 0.4480998878962019,
+   "spx1": 0.30625866712359384,
+   "prev": null
+  },
+  {
+   "year": 2022,
+   "ticker": "DVN",
+   "name": "Devon Energy",
+   "value": 1314.969124926133,
+   "spx": 1713.3568836822203,
+   "approx": false,
+   "fwd1": 0.45832000563829256,
+   "spx1": -0.18629987858605013,
+   "prev": null
+  },
+  {
+   "year": 2023,
+   "ticker": "OXY",
+   "name": "Occidental Petroleum",
+   "value": 1045.6957577905898,
+   "spx": 2114.0172962824436,
+   "approx": false,
+   "fwd1": -0.010297097143015965,
+   "spx1": 0.26790291362327,
+   "prev": null
+  },
+  {
+   "year": 2024,
+   "ticker": "NVDA",
+   "name": "Nvidia",
+   "value": 4591.691363801799,
+   "spx": 1676.7729921050006,
+   "approx": false,
+   "fwd1": 1.7887422658971555,
+   "spx1": 0.25727454257043614,
+   "prev": null
+  },
+  {
+   "year": 2025,
+   "ticker": "PLTR",
+   "name": "Palantir",
+   "value": 2478.787072749036,
+   "spx": 1336.5803112443878,
+   "approx": false,
+   "fwd1": 1.364011171698364,
+   "spx1": 0.1813835969397979,
+   "prev": null
+  }
+ ],
+ "corrected": [
+  {
+   "year": 2006,
+   "ticker": "VLO",
+   "name": "Valero Energy",
+   "value": 13053.392638282241,
+   "spx": 8973.579178304915,
+   "approx": false,
+   "fwd1": -0.053919981961209396,
+   "spx1": 0.13922640388543783,
+   "prev": null
+  },
+  {
+   "year": 2007,
+   "ticker": "ATI",
+   "name": "Allegheny Technologies",
+   "value": 2771.9105821283715,
+   "spx": 7884.8768675078245,
+   "approx": false,
+   "fwd1": -0.017638690550526803,
+   "spx1": 0.056004847064216934,
+   "prev": null
+  },
+  {
+   "year": 2008,
+   "ticker": "NOV",
+   "name": "National Oilwell Varco",
+   "value": 407.3331445583047,
+   "spx": 7574.498333978399,
+   "approx": false,
+   "fwd1": -0.6756889650791706,
+   "spx1": -0.360880763297459,
+   "prev": null
+  },
+  {
+   "year": 2009,
+   "ticker": "FDO",
+   "name": "Family Dollar",
+   "value": 3707.1329497506717,
+   "spx": 11486.315427870088,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.22567820860876342,
+   "prev": null
+  },
+  {
+   "year": 2010,
+   "ticker": "XL",
+   "name": "XL Capital",
+   "value": 3444.626295690126,
+   "spx": 9223.023672349917,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.13241668010579843,
+   "prev": null
+  },
+  {
+   "year": 2011,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 31800.525758229684,
+   "spx": 8053.098021793013,
+   "approx": false,
+   "fwd1": -0.6116059167418684,
+   "spx1": 0.009652480942804909,
+   "prev": null
+  },
+  {
+   "year": 2012,
+   "ticker": "COG",
+   "name": "Cabot Oil & Gas (later Coterra)",
+   "value": 2191.8630545496794,
+   "spx": 7854.378893193711,
+   "approx": true,
+   "fwd1": null,
+   "spx1": 0.14232804881992567,
+   "prev": null
+  },
+  {
+   "year": 2013,
+   "ticker": "PHM",
+   "name": "PulteGroup",
+   "value": 7992.710890638051,
+   "spx": 6704.148060189601,
+   "approx": false,
+   "fwd1": 0.10464174533674186,
+   "spx1": 0.2908411749819937,
+   "prev": null
+  },
+  {
+   "year": 2014,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 15637.359881152208,
+   "spx": 5239.295468671991,
+   "approx": false,
+   "fwd1": -0.05845922324477626,
+   "spx1": 0.1468803004506145,
+   "prev": null
+  },
+  {
+   "year": 2015,
+   "ticker": "LUV",
+   "name": "Southwest Airlines",
+   "value": 1030.913646089827,
+   "spx": 4569.223164854091,
+   "approx": false,
+   "fwd1": 0.015502521478263587,
+   "spx1": 0.014042105300585472,
+   "prev": null
+  },
+  {
+   "year": 2016,
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "value": 7370.862131684248,
+   "spx": 4574.916378630124,
+   "approx": false,
+   "fwd1": 0.12586395052746457,
+   "spx1": 0.13673527294174548,
+   "prev": null
+  },
+  {
+   "year": 2017,
+   "ticker": "NVDA",
+   "name": "Nvidia",
+   "value": 87991.71017496313,
+   "spx": 3990.6419118384383,
+   "approx": false,
+   "fwd1": 0.9043083177234865,
+   "spx1": 0.2080331486778193,
+   "prev": null
+  },
+  {
+   "year": 2018,
+   "ticker": "NRG",
+   "name": "NRG Energy",
+   "value": 4646.472318214998,
+   "spx": 3276.069797502028,
+   "approx": false,
+   "fwd1": 0.37560813006071814,
+   "spx1": -0.05175896458175622,
+   "prev": null
+  },
+  {
+   "year": 2019,
+   "ticker": "AMD",
+   "name": "AMD",
+   "value": 24998.406797663305,
+   "spx": 3450.5023794824156,
+   "approx": false,
+   "fwd1": 1.4354753053637812,
+   "spx1": 0.31319324257812275,
+   "prev": null
+  },
+  {
+   "year": 2020,
+   "ticker": "AMD",
+   "name": "AMD",
+   "value": 9586.965376782076,
+   "spx": 2605.414424242241,
+   "approx": false,
+   "fwd1": 0.8678207739307533,
+   "spx1": 0.17400660282723246,
+   "prev": null
+  },
+  {
+   "year": 2021,
+   "ticker": "TSLA",
+   "name": "Tesla",
+   "value": 1512.5996529591991,
+   "spx": 2252.365122487499,
+   "approx": false,
+   "fwd1": 0.4480998878962019,
+   "spx1": 0.30625866712359384,
+   "prev": null
+  },
+  {
+   "year": 2022,
+   "ticker": "DVN",
+   "name": "Devon Energy",
+   "value": 1314.969124926133,
+   "spx": 1713.3568836822203,
+   "approx": false,
+   "fwd1": 0.45832000563829256,
+   "spx1": -0.18629987858605013,
+   "prev": null
+  },
+  {
+   "year": 2023,
+   "ticker": "OXY",
+   "name": "Occidental Petroleum",
+   "value": 1045.6957577905898,
+   "spx": 2114.0172962824436,
+   "approx": false,
+   "fwd1": -0.010297097143015965,
+   "spx1": 0.26790291362327,
+   "prev": null
+  },
+  {
+   "year": 2024,
+   "ticker": "NVDA",
+   "name": "Nvidia",
+   "value": 4591.691363801799,
+   "spx": 1676.7729921050006,
+   "approx": false,
+   "fwd1": 1.7887422658971555,
+   "spx1": 0.25727454257043614,
+   "prev": null
+  },
+  {
+   "year": 2025,
+   "ticker": "PLTR",
+   "name": "Palantir",
+   "value": 2478.787072749036,
+   "spx": 1336.5803112443878,
+   "approx": false,
+   "fwd1": 1.364011171698364,
+   "spx1": 0.1813835969397979,
+   "prev": null
+  }
+ ],
+ "runner_up": [
+  {
+   "year": 2006,
+   "ticker": "AAPL",
+   "name": "Apple",
+   "value": 141722.95030639172,
+   "spx": 8973.579178304915,
+   "approx": false,
+   "fwd1": 0.13499127789953924,
+   "spx1": 0.13922640388543783,
+   "prev": null
+  },
+  {
+   "year": 2007,
+   "ticker": "TEX",
+   "name": "Terex",
+   "value": 1237.3773289716967,
+   "spx": 7884.8768675078245,
+   "approx": false,
+   "fwd1": 0.1102280896928085,
+   "spx1": 0.056004847064216934,
+   "prev": null
+  },
+  {
+   "year": 2008,
+   "ticker": "AMZN",
+   "name": "Amazon",
+   "value": 53978.18181818181,
+   "spx": 7574.498333978399,
+   "approx": false,
+   "fwd1": -0.4672207792207792,
+   "spx1": -0.360880763297459,
+   "prev": null
+  },
+  {
+   "year": 2009,
+   "ticker": "HRB",
+   "name": "H&R Block",
+   "value": 4412.206370415068,
+   "spx": 11486.315427870088,
+   "approx": false,
+   "fwd1": 0.03967932416706188,
+   "spx1": 0.22567820860876342,
+   "prev": null
+  },
+  {
+   "year": 2010,
+   "ticker": "THC",
+   "name": "Tenet Healthcare",
+   "value": 12197.706422018347,
+   "spx": 9223.023672349917,
+   "approx": false,
+   "fwd1": 0.22752293577981653,
+   "spx1": 0.13241668010579843,
+   "prev": null
+  },
+  {
+   "year": 2011,
+   "ticker": "FFIV",
+   "name": "F5 Networks",
+   "value": 3030.8196233157146,
+   "spx": 8053.098021793013,
+   "approx": false,
+   "fwd1": -0.21000521104742054,
+   "spx1": 0.009652480942804909,
+   "prev": null
+  },
+  {
+   "year": 2012,
+   "ticker": "ISRG",
+   "name": "Intuitive Surgical",
+   "value": 7190.310652863265,
+   "spx": 7854.378893193711,
+   "approx": false,
+   "fwd1": 0.03955949187402941,
+   "spx1": 0.14232804881992567,
+   "prev": null
+  },
+  {
+   "year": 2013,
+   "ticker": "WHR",
+   "name": "Whirlpool",
+   "value": 608.626581363568,
+   "spx": 6704.148060189601,
+   "approx": false,
+   "fwd1": 0.49122603085754646,
+   "spx1": 0.2908411749819937,
+   "prev": null
+  },
+  {
+   "year": 2014,
+   "ticker": "BBY",
+   "name": "Best Buy",
+   "value": 3115.052915091003,
+   "spx": 5239.295468671991,
+   "approx": false,
+   "fwd1": -0.014570596854243556,
+   "spx1": 0.1468803004506145,
+   "prev": null
+  },
+  {
+   "year": 2015,
+   "ticker": "EW",
+   "name": "Edwards Lifesciences",
+   "value": 4263.225394260266,
+   "spx": 4569.223164854091,
+   "approx": false,
+   "fwd1": 0.23676755908618996,
+   "spx1": 0.014042105300585472,
+   "prev": null
+  },
+  {
+   "year": 2016,
+   "ticker": "AMZN",
+   "name": "Amazon",
+   "value": 8156.171996420665,
+   "spx": 4574.916378630124,
+   "approx": false,
+   "fwd1": 0.17720843341339743,
+   "spx1": 0.13673527294174548,
+   "prev": null
+  },
+  {
+   "year": 2017,
+   "ticker": "OKE",
+   "name": "ONEOK",
+   "value": 2951.9920796462898,
+   "spx": 3990.6419118384383,
+   "approx": false,
+   "fwd1": -0.04347892927640684,
+   "spx1": 0.2080331486778193,
+   "prev": null
+  },
+  {
+   "year": 2018,
+   "ticker": "ALGN",
+   "name": "Align Technology",
+   "value": 711.3792182352418,
+   "spx": 3276.069797502028,
+   "approx": false,
+   "fwd1": -0.06762532276734035,
+   "spx1": -0.05175896458175622,
+   "prev": null
+  },
+  {
+   "year": 2019,
+   "ticker": "FTNT",
+   "name": "Fortinet",
+   "value": 12265.355912743973,
+   "spx": 3450.5023794824156,
+   "approx": false,
+   "fwd1": 0.5321469575200919,
+   "spx1": 0.31319324257812275,
+   "prev": null
+  },
+  {
+   "year": 2020,
+   "ticker": "LRCX",
+   "name": "Lam Research",
+   "value": 10885.60885608856,
+   "spx": 2605.414424242241,
+   "approx": false,
+   "fwd1": 0.611545988258317,
+   "spx1": 0.17400660282723246,
+   "prev": null
+  },
+  {
+   "year": 2021,
+   "ticker": "ETSY",
+   "name": "Etsy",
+   "value": 472.6290097629009,
+   "spx": 2252.365122487499,
+   "approx": false,
+   "fwd1": 0.27231520223152006,
+   "spx1": 0.30625866712359384,
+   "prev": null
+  },
+  {
+   "year": 2022,
+   "ticker": "MRNA",
+   "name": "Moderna",
+   "value": 597.0644543714103,
+   "spx": 1713.3568836822203,
+   "approx": false,
+   "fwd1": -0.23582216549670287,
+   "spx1": -0.18629987858605013,
+   "prev": null
+  },
+  {
+   "year": 2023,
+   "ticker": "XOM",
+   "name": "Exxon Mobil",
+   "value": 1708.9434174621208,
+   "spx": 2114.0172962824436,
+   "approx": false,
+   "fwd1": -0.02926067890551165,
+   "spx1": 0.26790291362327,
+   "prev": null
+  },
+  {
+   "year": 2024,
+   "ticker": "META",
+   "name": "Meta Platforms",
+   "value": 1667.2905581668367,
+   "spx": 1676.7729921050006,
+   "approx": false,
+   "fwd1": 0.697267063918048,
+   "spx1": 0.25727454257043614,
+   "prev": null
+  },
+  {
+   "year": 2025,
+   "ticker": "VST",
+   "name": "Vistra",
+   "value": 925.461197932281,
+   "spx": 1336.5803112443878,
+   "approx": false,
+   "fwd1": 0.08388099500047486,
+   "spx1": 0.1813835969397979,
+   "prev": null
+  }
+ ],
+ "reel_claimed": {
+  "total": [
+   357000,
+   105000
+  ],
+  "by_year": {
+   "2006": [
+    141700,
+    9000
+   ],
+   "2008": [
+    400,
+    null
+   ],
+   "2010": [
+    3600,
+    9200
+   ],
+   "2011": [
+    31800,
+    null
+   ],
+   "2014": [
+    15600,
+    null
+   ],
+   "2016": [
+    7400,
+    null
+   ],
+   "2017": [
+    88000,
+    null
+   ],
+   "2019": [
+    25000,
+    null
+   ],
+   "2020": [
+    9600,
+    null
+   ],
+   "2021": [
+    1500,
+    2300
+   ]
+  }
+ }
+}

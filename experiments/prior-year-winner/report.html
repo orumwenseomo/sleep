@@ -1,0 +1,275 @@
+<title>Last Year's Winner</title>
+<meta name="description" content="Replicating the 'buy last year's best S&P 500 stock' experiment">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#f4f6f8; --paper-2:#ffffff; --ink:#14181d; --ink-2:#4f5966; --ink-3:#7b8592; --rule:#d7dde3; --rule-2:#e6eaee;
+  --accent:#1f4f7a; --accent-ink:#ffffff;
+  --pick:#2a78d6; --spx:#eb6834; --pick-soft:#dbe8fa; --spx-soft:#fbe3d8;
+  --good:#0ca30c; --bad:#d03b3b;
+  --tip-bg:#14181d; --tip-ink:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15181c; --paper-2:#1d2126; --ink:#eef0f2; --ink-2:#b4bcc6; --ink-3:#8791a0; --rule:#343a42; --rule-2:#272c33;
+    --accent:#8fb8e0; --accent-ink:#0f1a26;
+    --pick:#3987e5; --spx:#d95926; --pick-soft:#1e3350; --spx-soft:#4a2416;
+    --good:#0ca30c; --bad:#e66767;
+    --tip-bg:#eef0f2; --tip-ink:#14181d;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15181c; --paper-2:#1d2126; --ink:#eef0f2; --ink-2:#b4bcc6; --ink-3:#8791a0; --rule:#343a42; --rule-2:#272c33;
+  --accent:#8fb8e0; --accent-ink:#0f1a26;
+  --pick:#3987e5; --spx:#d95926; --pick-soft:#1e3350; --spx-soft:#4a2416;
+  --good:#0ca30c; --bad:#e66767;
+  --tip-bg:#eef0f2; --tip-ink:#14181d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:980px;margin:0 auto;padding:40px 24px 80px}
+.prose{max-width:680px}
+h1,h2,h3{font-family:"Newsreader",Georgia,"Times New Roman",serif;font-weight:500;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(34px,5vw,50px)}
+h2{font-size:28px;margin-top:64px;padding-top:20px;border-top:1px solid var(--rule)}
+h3{font-size:20px;margin-top:28px}
+p{margin:14px 0}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:14px}
+.lede{font-size:19px;color:var(--ink-2);margin-top:18px}
+.mono,.num,td.num,th.num{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.verdict{margin-top:36px;padding:22px 24px;background:var(--paper-2);border:1px solid var(--rule);border-left:4px solid var(--accent)}
+.verdict p{margin:8px 0}
+.verdict strong{font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:28px}
+.tile{padding:16px 18px;background:var(--paper-2);border:1px solid var(--rule)}
+.tile .l{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.tile .v{font-family:"Newsreader",Georgia,serif;font-size:34px;font-weight:500;margin-top:6px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .s{font-size:13px;color:var(--ink-2);margin-top:6px}
+.tile .s b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.tiles{grid-template-columns:1fr}}
+figure{margin:28px 0 0;padding:0}
+figcaption{font-size:13px;color:var(--ink-2);margin-top:10px;max-width:680px}
+.legend{display:flex;gap:18px;font-size:13px;color:var(--ink-2);margin:6px 0 10px;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
+.legend .lp::before{background:var(--pick)} .legend .ls::before{background:var(--spx)}
+.chart{position:relative;background:var(--paper-2);border:1px solid var(--rule);padding:14px 10px 6px;overflow-x:auto}
+.chart svg{display:block;width:100%;height:auto;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.chart .ax{fill:var(--ink-3);font-size:11px}
+.chart .grid{stroke:var(--rule-2);stroke-width:1}
+.chart .base{stroke:var(--rule);stroke-width:1}
+.chart .lbl{fill:var(--ink);font-size:11.5px;font-family:"IBM Plex Mono",monospace}
+.chart .yl{fill:var(--ink-2);font-size:12px}
+.chart .tk{fill:var(--ink-3);font-size:12px;font-family:"IBM Plex Mono",monospace}
+.tip{position:absolute;pointer-events:none;background:var(--tip-bg);color:var(--tip-ink);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:3px;max-width:260px;opacity:0;transform:translate(-50%,-100%);transition:opacity .08s;white-space:nowrap}
+.tip b{font-weight:600}
+.hit{fill:transparent;cursor:default}
+.hit:hover{fill:var(--rule-2);fill-opacity:.5}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:20px}
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--paper-2)}
+th{font-weight:500;color:var(--ink-3);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;text-align:left;padding:10px 10px;border-bottom:1px solid var(--rule);white-space:normal;line-height:1.25}
+td{padding:7px 10px;border-bottom:1px solid var(--rule-2);vertical-align:top;white-space:nowrap}
+td:nth-child(2){white-space:normal;min-width:170px}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+td.win{color:var(--good)} td.lose{color:var(--bad)}
+tr.alt td{background:var(--pick-soft)}
+tr.sum td{font-weight:600;border-top:2px solid var(--rule);background:var(--paper-2)}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border:1px solid var(--rule);border-radius:2px;color:var(--ink-2);margin-left:6px;vertical-align:1px}
+.note{font-size:14px;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:14px;margin-top:40px}
+.stack{display:flex;height:34px;gap:2px;margin-top:16px}
+.stack div{position:relative;background:var(--pick);min-width:2px}
+.stack div.o{background:var(--rule)}
+.stack-key{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:13px;color:var(--ink-2);font-family:"IBM Plex Mono",monospace}
+.stack-key span i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;background:var(--pick)}
+.stack-key span i.o{background:var(--rule)}
+.stack-wrap{padding-bottom:6px}
+ul{padding-left:20px} li{margin:6px 0}
+.src{font-size:13px;color:var(--ink-2)}
+.src li{margin:4px 0}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+</style>
+
+<div class="wrap">
+<div class="prose">
+<div class="eyebrow">Fact check · S&P 500 · 2006 to Aug 2026</div>
+<h1>Does last year's best S&P 500 stock keep winning?</h1>
+<p class="lede">An Instagram reel ran a 20-year experiment: each January, put $1,000 into the S&P 500 stock that returned the most in the previous calendar year, and $1,000 into the index, then hold everything to August 2026. It reported $357,000 for the picks against $105,000 for the index. Here is the same experiment rebuilt from Yahoo Finance data, then pushed a little harder.</p>
+
+<div class="verdict">
+<p><strong>The reel's numbers are real, but the conclusion leans on two stocks and two mistakes.</strong></p>
+<p>Every figure in the video reproduces to within rounding. Two of its twenty picks, though, were not the prior year's top stock under its own total-return rule: Valero beat Apple in 2005 and NRG Energy beat Align in 2017. Fixing that drops the picks from $352k to $228k. That still beats the index, but the median pick only matched it, momentum did not carry into the following year, and buying the <em>second</em>-best stock would have done just as well. The edge came from a few multi-year compounders, not from prior-year winners continuing to win.</p>
+</div>
+</div>
+
+<div class="tiles">
+  <div class="tile"><div class="l">Reel's claim</div><div class="v">$357k</div><div class="s">picks vs <b>$105k</b> index · won 11 of 20 years</div></div>
+  <div class="tile"><div class="l">Replicated, same picks</div><div class="v">$352k</div><div class="s">picks vs <b>$105k</b> index · won 10 of 20 years</div></div>
+  <div class="tile"><div class="l">With correct picks</div><div class="v">$228k</div><div class="s">picks vs <b>$105k</b> index · won 11 of 20 years</div></div>
+</div>
+
+<div class="prose">
+<h2>The twenty purchases</h2>
+<p>Each row is one January purchase, valued on 31 August 2026 with dividends reinvested. The scale is logarithmic because the outcomes span $400 to $142,000; every gridline is a tenfold step. Blue is the stock, orange is the matching $1,000 in the S&P 500 total-return index.</p>
+</div>
+<figure>
+<div class="legend"><span class="lp">Prior-year winner</span><span class="ls">S&P 500 (total return)</span></div>
+<div class="chart" id="dumbbell"></div>
+<figcaption>Hover a row for the detail. Three positions (Family Dollar, XL Group, Cabot/Coterra) were taken over before 2026 and are valued from deal terms; they are marked with a tilde.</figcaption>
+</figure>
+
+<div class="prose">
+<p>Ten of twenty picks beat their index twin, and the median pick finished at 0.98 times its index twin: a coin flip. The sum only looks lopsided because Apple (bought January 2006) and Nvidia (bought January 2017) together produced $230,000, 65% of the total. Take those two rows out and the remaining eighteen picks made $123,000 against $92,000 for the index, a much less dramatic gap that rests almost entirely on the 2011 Netflix and 2019 AMD purchases.</p>
+</div>
+
+<div class="stack-wrap">
+<div class="prose"><h3>Where the $352,000 came from</h3></div>
+<div class="stack" id="stack"></div><div class="stack-key" id="stackkey"></div>
+</div>
+
+<div class="prose">
+<h2>Two picks were wrong</h2>
+<p>The reel says it chose "the S&P 500 company with the highest one-year total return". Recomputing calendar-year total returns for every stock that was in the index at each year-end (among the names Yahoo Finance still carries) confirms eighteen of the twenty selections. Two do not hold up:</p>
+<ul>
+<li><b>2005:</b> Valero Energy returned <span class="num">+128.5%</span>; Apple returned <span class="num">+123.3%</span>. The 2006 purchase should have been Valero, which grew to $13,053, not Apple's $141,723.</li>
+<li><b>2017:</b> NRG Energy returned <span class="num">+133.7%</span>; Align Technology returned <span class="num">+131.1%</span>. The 2018 purchase should have been NRG, which grew to $4,646, not Align's $711.</li>
+</ul>
+<p>Both were near misses, and both are the kind of thing a quick "best stock of the year" web search gets wrong. But the first one happens to be the single largest contributor to the reel's result. With the corrected picks the strategy still wins, $228k to $105k, and Nvidia alone is now 39% of the total.</p>
+
+<h2>Does momentum actually persist?</h2>
+<p>The reel's stated lesson is that "momentum can continue". The cleanest test of that is the purchase year itself: buy the prior-year winner on the first trading day, and compare it to the index at year-end. Over that twelve-month window the pick beat the index in 8 of the 17 years with data and had a <em>lower</em> median return, +12.6% against +14.7%. The average is higher (+36.5% vs +11.2%) only because of AMD in 2019 and Nvidia in 2024.</p>
+</div>
+<figure>
+<div class="legend"><span class="lp">Prior-year winner, next-year return</span><span class="ls">S&P 500, same year</span></div>
+<div class="chart" id="nextyear"></div>
+<figcaption>Total return from the first trading day to the last trading day of the purchase year. No next-year data for the three delisted names.</figcaption>
+</figure>
+<div class="prose">
+<p>So the strategy did not work the way the reel describes. Prior-year winners did not reliably keep winning the following year; a few of them turned out to be generational businesses whose returns compounded for a decade or more after the purchase. That is a very different claim, and it is not one you can act on in January.</p>
+
+<h2>Was being number one special?</h2>
+<p>If the effect were momentum, the second-best stock of the prior year should show a weaker version of it. Buying the runner-up instead produced $272,000, more than the corrected number-one strategy, while beating the index in only 6 of 20 years and with a median outcome of 0.77 times the index. The reason is the same one as before: the runner-up list happens to contain Apple (2006), Amazon (2008 and 2016) and Tenet (2010). Any basket of extreme prior-year winners from this period held the great compounders of the 2010s tech boom, and one or two of them decide the score.</p>
+
+<h2>Purchase by purchase</h2>
+</div>
+<div class="tablewrap"><table id="ledger"></table></div>
+<div class="prose">
+<p class="src">Corrected rows are shaded. Values are on 31 August 2026 with dividends reinvested; prior-year returns are calendar-year total returns from Yahoo Finance. Tilde marks a position valued from takeover terms.</p>
+
+<h2>Method and caveats</h2>
+<ul class="src">
+<li>Prices: Yahoo Finance daily split- and dividend-adjusted closes, pulled 4 September 2026. The ratio of two adjusted closes is a total return with dividends reinvested. The benchmark is the S&P 500 total-return index (^SP500TR).</li>
+<li>Winner check: calendar-year total returns for every stock in the S&P 500 at each year-end 2004 to 2025 (constituent history from the fja05680/sp500 dataset on GitHub). 265 of 956 historical tickers are no longer on Yahoo, so winners are only verified among survivors. A company that has since been delisted could have been the true winner in some year; 2006 and 2007 are the least certain.</li>
+<li>Delisted picks: Family Dollar (Dollar Tree, 6 July 2015: $59.60 cash plus 0.2484 DLTR shares), XL Group (AXA, 12 September 2018: $57.60 cash), and Cabot Oil &amp; Gas / Coterra (Devon Energy, 7 May 2026: 0.70 DVN per share, price path from Stooq). Takeover cash is assumed to sit idle, which matches the reel's own XL figure. Reinvesting it in the index instead would raise Family Dollar to $11,459 and XL to $9,511; the conclusions do not change.</li>
+<li>Code and data: the analysis script, the extracted prices and the constituent scan are in the repository alongside this page (experiments/prior-year-winner).</li>
+</ul>
+</div>
+</div>
+
+<script>
+const END = "31 Aug 2026";
+// year, ticker, name, prior-year return %, value Aug 2026, S&P value, next-year pick %, next-year S&P %, approx?, corrected alt {ticker,name,prior,value,fwd1}
+const ROWS = [
+ [2006,"AAPL","Apple",123.3,141723,8974,13,14,false,{t:"VLO",n:"Valero Energy",p:128.5,v:13053,f:-5}],
+ [2007,"ATI","Allegheny Technologies",152.9,2772,7885,-2,6,false,null],
+ [2008,"NOV","National Oilwell Varco",140.1,407,7574,-68,-36,false,null],
+ [2009,"FDO","Family Dollar",36,3707,11486,null,23,true,null],
+ [2010,"XL","XL Capital",395.4,3445,9223,null,13,true,null],
+ [2011,"NFLX","Netflix",218.9,31801,8053,-61,1,false,null],
+ [2012,"COG","Cabot Oil & Gas",101,2192,7854,null,14,true,null],
+ [2013,"PHM","PulteGroup",187.8,7993,6704,10,29,false,null],
+ [2014,"NFLX","Netflix",297.6,15637,5239,-6,15,false,null],
+ [2015,"LUV","Southwest Airlines",126.3,1031,4569,2,1,false,null],
+ [2016,"NFLX","Netflix",134.4,7371,4575,13,14,false,null],
+ [2017,"NVDA","Nvidia",227.0,87992,3991,90,21,false,null],
+ [2018,"ALGN","Align Technology",131.1,711,3276,-7,-5,false,{t:"NRG",n:"NRG Energy",p:133.7,v:4646,f:38}],
+ [2019,"AMD","AMD",79.6,24998,3451,144,31,false,null],
+ [2020,"AMD","AMD",148.4,9587,2605,87,17,false,null],
+ [2021,"TSLA","Tesla",743.4,1513,2252,45,31,false,null],
+ [2022,"DVN","Devon Energy",195.9,1315,1713,46,-19,false,null],
+ [2023,"OXY","Occidental Petroleum",119.1,1046,2114,-1,27,false,null],
+ [2024,"NVDA","Nvidia",239.0,4592,1677,179,26,false,null],
+ [2025,"PLTR","Palantir",340.5,2479,1337,136,18,false,null],
+];
+const usd = v => "$" + Math.round(v).toLocaleString("en-US");
+const pct = v => (v>0?"+":"") + v + "%";
+const svgNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent){ const e=document.createElementNS(svgNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function tooltip(container){ const t=document.createElement("div"); t.className="tip"; container.appendChild(t);
+  return { show(html,x,y){ t.innerHTML=html; t.style.left=x+"px"; t.style.top=(y-8)+"px"; t.style.opacity=1; }, hide(){ t.style.opacity=0; } }; }
+
+// ---------- dumbbell chart (log scale)
+(function(){
+  const c=document.getElementById("dumbbell"); const tip=tooltip(c);
+  const W=940, rowH=26, padL=118, padR=90, padT=28, padB=34, n=ROWS.length, H=padT+padB+rowH*n;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Value of each $1,000 purchase on 31 Aug 2026, prior-year winner versus S&P 500"},c);
+  const lo=Math.log10(300), hi=Math.log10(200000);
+  const x=v=>padL+(Math.log10(v)-lo)/(hi-lo)*(W-padL-padR);
+  [1000,10000,100000].forEach(v=>{ el("line",{x1:x(v),x2:x(v),y1:padT-8,y2:H-padB,class:"grid"},svg);
+    const t=el("text",{x:x(v),y:padT-14,"text-anchor":"middle",class:"tk"},svg); t.textContent=usd(v); });
+  [300,3000,30000].forEach(v=>{ el("line",{x1:x(v),x2:x(v),y1:padT-8,y2:H-padB,class:"grid","stroke-dasharray":"2 4"},svg); });
+  const t0=el("text",{x:x(1000)+4,y:H-padB+18,class:"ax"},svg); t0.textContent="$1,000 invested";
+  ROWS.forEach((r,i)=>{
+    const y=padT+rowH*i+rowH/2;
+    const [yr,tk,name,prior,v,s,f1,s1,approx]=r;
+    const yl=el("text",{x:padL-12,y:y+4,"text-anchor":"end",class:"yl"},svg); yl.textContent=`${yr}  ${tk}`;
+    el("line",{x1:x(Math.min(v,s)),x2:x(Math.max(v,s)),y1:y,y2:y,stroke:"var(--rule)","stroke-width":2},svg);
+    el("circle",{cx:x(s),cy:y,r:5,fill:"var(--spx)",stroke:"var(--paper-2)","stroke-width":2},svg);
+    el("circle",{cx:x(v),cy:y,r:5,fill:"var(--pick)",stroke:"var(--paper-2)","stroke-width":2},svg);
+    const far=Math.max(v,s); const lab=el("text",{x:x(far)+10,y:y+4,class:"lbl"},svg); lab.textContent=usd(v)+(approx?"~":"");
+    const hit=el("rect",{x:0,y:y-rowH/2,width:W,height:rowH,class:"hit"},svg);
+    hit.addEventListener("mousemove",ev=>{ const b=c.getBoundingClientRect(); const s2=c.querySelector("svg").getBoundingClientRect(); const px=(x(far)/W)*s2.width+(s2.left-b.left); const py=(y-rowH/2)/H*s2.height+(s2.top-b.top);
+      tip.show(`<b>${yr}: ${name}</b> (best of ${yr-1}, ${pct(prior)})<br>Stock: <b>${usd(v)}</b>${approx?" (from deal terms)":""}<br>S&P 500: <b>${usd(s)}</b> · ${(v/s).toFixed(2)}x`, Math.min(px, s2.width-140), py); });
+    hit.addEventListener("mouseleave",()=>tip.hide());
+  });
+  el("line",{x1:padL-4,x2:W-padR+70,y1:H-padB,y2:H-padB,class:"base"},svg);
+})();
+
+// ---------- contribution stack
+(function(){
+  const total=ROWS.reduce((a,r)=>a+r[4],0);
+  const parts=[["Apple 2006",141723],["Nvidia 2017",87992],["Netflix 2011",31801],["AMD 2019",24998]];
+  const other=total-parts.reduce((a,p)=>a+p[1],0);
+  const st=document.getElementById("stack"), key=document.getElementById("stackkey");
+  const add=(label,val,cls,op)=>{ const d=document.createElement("div"); d.style.flex=`${val} 0 0`; if(cls) d.className=cls; if(op) d.style.opacity=op; d.title=`${label}: ${usd(val)}`; st.appendChild(d);
+    const k=document.createElement("span"); const i=document.createElement("i"); if(cls) i.className=cls; if(op) i.style.opacity=op; k.appendChild(i); k.appendChild(document.createTextNode(`${label} ${Math.round(val/total*100)}% (${usd(val)})`)); key.appendChild(k); };
+  parts.forEach((p,i)=>add(p[0],p[1],"",1-i*0.18));
+  add("16 others",other,"o");
+})();
+
+// ---------- next-year grouped bars
+(function(){
+  const c=document.getElementById("nextyear"); const tip=tooltip(c);
+  const W=940,H=300,padL=52,padR=12,padT=16,padB=30; const rows=ROWS;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Return in the purchase year, prior-year winner versus S&P 500"},c);
+  const ymin=-80,ymax=200; const y=v=>padT+(ymax-v)/(ymax-ymin)*(H-padT-padB);
+  const gw=(W-padL-padR)/rows.length, bw=Math.min(12,gw*0.32);
+  [-50,0,50,100,150,200].forEach(v=>{ el("line",{x1:padL,x2:W-padR,y1:y(v),y2:y(v),class:v===0?"base":"grid"},svg); const t=el("text",{x:padL-8,y:y(v)+4,"text-anchor":"end",class:"tk"},svg); t.textContent=pct(v); });
+  rows.forEach((r,i)=>{
+    const [yr,tk,name,prior,v,s,f1,s1]=r; const gx=padL+gw*i+gw/2;
+    const lab=el("text",{x:gx,y:H-padB+16,"text-anchor":"middle",class:"ax"},svg); lab.textContent=String(yr).slice(2);
+    const bar=(val,x0,col)=>{ if(val===null){ const t=el("text",{x:x0+bw/2,y:y(0)-6,"text-anchor":"middle",class:"ax"},svg); t.textContent="n/a"; return; }
+      const top=Math.min(y(0),y(val)), h=Math.abs(y(val)-y(0)); el("rect",{x:x0,y:top,width:bw,height:Math.max(h,1),fill:col,rx:val>=0?2:0},svg); };
+    bar(f1,gx-bw-1,"var(--pick)"); bar(s1,gx+1,"var(--spx)");
+    const hit=el("rect",{x:padL+gw*i,y:padT,width:gw,height:H-padT-padB,class:"hit"},svg);
+    hit.addEventListener("mousemove",()=>{ const b=c.getBoundingClientRect(); const s2=c.querySelector("svg").getBoundingClientRect(); const px=gx/W*s2.width+(s2.left-b.left);
+      tip.show(`<b>${yr}: ${name}</b><br>Stock: <b>${f1===null?"n/a (delisted)":pct(f1)}</b> · S&P 500: <b>${pct(s1)}</b>`, Math.min(Math.max(px,120), s2.width-120), padT/H*s2.height+(s2.top-b.top)+20); });
+    hit.addEventListener("mouseleave",()=>tip.hide());
+  });
+})();
+
+// ---------- ledger table
+(function(){
+  const t=document.getElementById("ledger");
+  t.innerHTML=`<thead><tr><th>Bought</th><th>Pick</th><th class="num">Prior-year return</th><th class="num">Next year, pick</th><th class="num">Next year, S&P</th><th class="num">Value, Aug 2026</th><th class="num">S&P 500 twin</th><th class="num">Ratio</th></tr></thead>`;
+  const tb=document.createElement("tbody"); let sumV=0,sumS=0,sumC=0;
+  ROWS.forEach(r=>{ const [yr,tk,name,prior,v,s,f1,s1,approx,alt]=r; sumV+=v; sumS+=s; sumC+=alt?alt.v:v;
+    const tr=document.createElement("tr"); tr.innerHTML=`<td class="num">${yr}</td><td>${name} <span class="mono">${tk}</span></td><td class="num">${pct(prior)}</td><td class="num">${f1===null?"n/a":pct(f1)}</td><td class="num">${pct(s1)}</td><td class="num">${usd(v)}${approx?"~":""}</td><td class="num">${usd(s)}</td><td class="num ${v>s?"win":"lose"}">${(v/s).toFixed(2)}x</td>`; tb.appendChild(tr);
+    if(alt){ const a=document.createElement("tr"); a.className="alt"; a.innerHTML=`<td class="num"></td><td>${alt.n} <span class="mono">${alt.t}</span><span class="tag">correct pick</span></td><td class="num">${pct(alt.p)}</td><td class="num">${pct(alt.f)}</td><td class="num">${pct(s1)}</td><td class="num">${usd(alt.v)}</td><td class="num">${usd(s)}</td><td class="num ${alt.v>s?"win":"lose"}">${(alt.v/s).toFixed(2)}x</td>`; tb.appendChild(a); }
+  });
+  const sum=document.createElement("tr"); sum.className="sum"; sum.innerHTML=`<td></td><td>Total, reel's picks</td><td></td><td></td><td></td><td class="num">${usd(sumV)}</td><td class="num">${usd(sumS)}</td><td class="num">${(sumV/sumS).toFixed(2)}x</td>`; tb.appendChild(sum);
+  const sum2=document.createElement("tr"); sum2.className="sum"; sum2.innerHTML=`<td></td><td>Total, corrected picks</td><td></td><td></td><td></td><td class="num">${usd(sumC)}</td><td class="num">${usd(sumS)}</td><td class="num">${(sumC/sumS).toFixed(2)}x</td>`; tb.appendChild(sum2);
+  t.appendChild(tb);
+})();
+</script>
