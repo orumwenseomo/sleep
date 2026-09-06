@@ -71,27 +71,59 @@ Your rate is fixed only until then. About $466k renews at whatever the market ra
 Each 1% on the renewal rate is worth roughly $60k of interest over the remaining amortization.
 Nothing you can do with prepayments this term is as large as the rate you sign at renewal.
 
+## CIBC's rules (Fixed Rate Closed mortgage, from cibc.com, checked Sep 2026)
+
+| Privilege | CIBC term |
+|---|---|
+| Lump sum, no charge | up to **10% of the original principal per year** (some products 15–20%; the app shows yours) |
+| Payment increase, no charge | up to **100% of the original regular payment**, any time in the term |
+| Lump-sum application | applied straight to principal "if there's no interest owing" (so pay on a payment date) |
+| Over the limit | charge = greater of 3 months' interest or the IRD; CIBC uses posted-rate IRD and adds back your original discount, which makes the IRD large |
+| Early renewal | as early as **150 days before maturity** (from ~Jan 6, 2028); renewal offer mailed ~30 days out |
+| How | CIBC Online Banking / app: "Manage mortgage payments" lets you change the payment and make prepayments yourself |
+
+Whether the 10% resets on the calendar year or on your mortgage anniversary is not stated
+publicly and forum reports conflict. The app's prepayment screen shows "available this year";
+that number is authoritative.
+
+Original principal is not on the screen. Backing it out (25-yr amortization, ~37 payments made)
+gives roughly $508k, so the 10% cap is about **$50,800 per year** and the payment could go as
+high as ~$2,387 bi-weekly. Neither cap is binding; cash flow is.
+
+| CIBC-sized scenario | payoff (yrs) | total interest | saved | balance at Jun 2028 renewal |
+|---|---|---|---|---|
+| J. Payment +50% ($1,790) | 13.3 | $129,165 | $112,425 | $437,622 |
+| K. One max lump ($50.8k) Sep 2026 | 20.0 | $179,976 | $61,613 | $411,835 |
+| L. Max lump Sep 2026 and Jan 2028 | 16.9 | $135,912 | $105,677 | $360,237 |
+| M. Max lump every year | 6.4 | $61,387 | $180,203 | $360,843 |
+
+Market context (Sep 2026): 3-yr fixed ~3.91%, best 5-yr fixed ~4.04%, CIBC prime 4.45%.
+Renewing at ~3.9–4.0% costs $14k–$22k more than 3.69% over the remaining amortization
+(+$24 to +$39 per payment); the sensitivity table above covers the range.
+
 ## Recommended plan
 
-1. Confirm your prepayment privileges in the app / mortgage document. Most Canadian lenders
-   allow, per year and penalty-free: a payment increase of 10–20%, lump sums of 10–20% of the
-   original principal, and "double-up" payments. Anything beyond that triggers a penalty
-   (on a fixed rate: the greater of 3 months' interest or the IRD). Stay inside the privileges.
-2. Raise the regular payment now, by the max allowed or to a round number you can sustain
-   ($1,432 = +20%; $1,500 if allowed). This is the cheapest habit: it needs no discipline
-   after the one call/click and saves $63k–$75k.
-3. Put lump sums in as early in each year as you can, on a payment date so they apply
-   immediately. Privileges usually reset on a calendar year or anniversary year: check
-   which, because a lump in late Dec 2026 and another in early Jan 2027 can use two years'
-   allowance in two weeks.
-4. Before Jun 5, 2028: use the remaining allowance, then at renewal you can pay any amount
-   with no penalty. That is also the one moment to shorten the amortization (e.g. to 20 yrs)
-   and to switch lenders if another offers a better rate; you are not locked in.
-5. At renewal, shop the rate 120 days out. Rate holds are free. The table above shows why
-   this one number dominates everything else.
-6. Keep the emergency fund and any higher-rate debt first: 3.69% is cheap money. Prepaying
+1. Raise the regular payment now in the app. CIBC allows up to double; pick the most you can
+   sustain. +20% ($1,432) saves ~$63k; +50% ($1,790) saves ~$112k. A payment increase is
+   penalty-free and, unlike a lump sum, needs no discipline after the one change.
+2. Lump sums: up to ~$50k per year without charge. Make them on a payment date so they hit
+   principal immediately. Earliest is best, but the timing loss is small (~$80 per $10k per
+   month of delay); the real loss is not making them.
+3. Two windows before renewal: one lump now (2026 allowance), one in early January 2028
+   (a fresh allowance if CIBC resets on the calendar year; confirm in the app). That alone
+   takes the renewal balance from $466k to $360k.
+4. Never exceed the 10% in a term year. The posted-rate IRD at CIBC is punitive; if you have
+   more than the cap, hold it until Jun 5, 2028, when you can pay any amount with no charge.
+5. From Jan 6, 2028 (150 days out) you can renew early. Get a rate hold from CIBC and two
+   competing quotes; at renewal you can also shorten the amortization and switch lenders
+   for free. Each 1% on the renewal rate is worth ~$60k.
+6. Keep the emergency fund and pay any higher-rate debt first: 3.69% is cheap money. Prepaying
    it beats a savings account earning less than ~3.7% after tax, but not a credit card,
-   a car loan, or (usually) an unused TFSA/RRSP room if your marginal tax rate is high.
+   a car loan, or (usually) unused TFSA/RRSP room if your marginal tax rate is high.
 
-Not modelled: the payment/lump-sum caps of your specific lender, prepayment penalties,
-property tax or insurance components (the app shows none), and the actual renewal rate.
+Not modelled: the exact lump-sum tier and reset date of your specific CIBC product (check the
+app), property tax or insurance components (the app shows none), and the actual renewal rate.
+
+Sources: cibc.com prepayment, pay-your-mortgage-faster, fixed-rate-closed, FAQ and renewal
+pages; ratehub.ca CIBC penalty article; mortgagerenewalhub.ca early-renewal; ratehub.ca
+best-mortgage-rates (Sep 2026).

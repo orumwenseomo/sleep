@@ -131,8 +131,34 @@ if __name__ == "__main__":
         r = simulate(stop=MATURITY, **kw)
         print(f"  {name:<40} balance at renewal {fmt(r['end_balance'])}   interest paid to then {fmt(r['interest'])}")
 
+    # ---- CIBC-specific (Fixed Rate Closed: 10% of original principal per year as lump sum,
+    #      payment increase up to 100% of original payment, any time, no charge) ----
+    # Original principal is not on the screen. Back it out assuming a 25-yr amortization:
+    # 23.58 yrs left => ~1.4 yrs elapsed => ~37 payments made.
+    orig = BALANCE
+    for _ in range(37):
+        orig = (orig + PAYMENT) / (1 + BIWEEKLY_RATE)
+    cap_lump = 0.10 * orig
+    print(f"\n== CIBC Fixed Rate Closed privileges ==")
+    print(f"estimated original principal ~{fmt(orig)}  -> 10% lump-sum cap ~{fmt(cap_lump)} per year")
+    print(f"payment may rise up to 100% of original payment -> up to ~{fmt(PAYMENT*2)} bi-weekly")
+    cibc = {
+        "J. +50% payment ($1,790)": dict(payment=PAYMENT * 1.5),
+        "K. Max 10% lump once (Sep 2026)": dict(lump_sums={date(2026, 9, 14): cap_lump}),
+        "L. Max 10% lump Sep 2026 + Jan 2028": dict(lump_sums={date(2026, 9, 14): cap_lump,
+                                                               date(2028, 1, 3): cap_lump}),
+        "M. Max 10% lump every year": dict(lump_sums={date(y, 1, 1): cap_lump for y in range(2027, 2060)}),
+    }
+    print(f"{'scenario':<40}{'payoff':>8}{'total int':>12}{'saved':>11}{'at renewal':>13}")
+    for name, kw in cibc.items():
+        r = simulate(**kw)
+        m = simulate(stop=MATURITY, **kw)
+        print(f"{name:<40}{years(r['n']):>8.1f}{fmt(r['interest']):>12}"
+              f"{fmt(base['interest']-r['interest']):>11}{fmt(m['end_balance']):>13}")
+
     print("\n== Renewal-rate sensitivity: balance $465,873 renewed for the remaining ~21.7 yrs ==")
-    for rr in [0.0299, 0.0369, 0.0449, 0.0499, 0.0549]:
+    print("   (market, Sep 2026: 3-yr fixed ~3.91%, best 5-yr fixed ~4.04%, CIBC prime 4.45%)")
+    for rr in [0.0299, 0.0369, 0.0391, 0.0404, 0.0449, 0.0499, 0.0549]:
         i_bw = (1 + rr / 2) ** (2 / 26) - 1
         n_left = base["n"] - to_mat["n"]
         pmt = to_mat["end_balance"] * i_bw / (1 - (1 + i_bw) ** (-n_left))
