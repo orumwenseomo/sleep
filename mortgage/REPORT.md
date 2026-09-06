@@ -71,6 +71,40 @@ Your rate is fixed only until then. About $466k renews at whatever the market ra
 Each 1% on the renewal rate is worth roughly $60k of interest over the remaining amortization.
 Nothing you can do with prepayments this term is as large as the rate you sign at renewal.
 
+## Your 2025 statement (from the app's "Summary of 2025")
+
+| 2025 | amount |
+|---|---|
+| Interest | $9,929.83 |
+| Principal (regular payments) | $6,416.85 |
+| Additional principal (your lump sum) | $3,000.00 |
+| Taxes / insurance | $0.00 |
+
+Fitting these three numbers to the current balance pins the mortgage down: funded about
+June 9, 2025 (3-year term to Jun 5, 2028), original principal about **$508,170**, first
+regular payment Jul 7, 2025, with 13 payments plus an interest-adjustment charge in 2025.
+The model reproduces the statement to within ~$100 (day-count rounding).
+
+Only 39% of your 2025 regular payments went to principal. Annualised, 2025 interest was
+about $18,500, which is why the year-one figure above (~$17,700) is already lower: the
+balance is falling.
+
+What the $3,000 did:
+
+| | with the $3,000 | without |
+|---|---|---|
+| Balance today | $489,899 | $493,024 |
+| Balance at Jun 2028 renewal | $465,961 | $469,294 |
+| Lifetime interest | $241,590 | $245,901 |
+| Payoff | 23.6 yrs | 23.8 yrs |
+
+So $3,000 saves **$4,311** of interest and about 3 months, i.e. every prepaid dollar returns
+$1.44 of avoided interest at 3.69% (before any renewal-rate rise, which only makes it better).
+Against your ~$50.8k annual room you used 0.6% of it in 2025; the 2026 allowance is untouched.
+
+The app reports "additional principal" per calendar year, which is consistent with CIBC
+tracking the 10% allowance per calendar year, but confirm on the prepayment screen.
+
 ## CIBC's rules (Fixed Rate Closed mortgage, from cibc.com, checked Sep 2026)
 
 | Privilege | CIBC term |

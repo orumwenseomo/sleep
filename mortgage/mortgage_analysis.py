@@ -133,12 +133,19 @@ if __name__ == "__main__":
 
     # ---- CIBC-specific (Fixed Rate Closed: 10% of original principal per year as lump sum,
     #      payment increase up to 100% of original payment, any time, no charge) ----
-    # Original principal is not on the screen. Back it out assuming a 25-yr amortization:
-    # 23.58 yrs left => ~1.4 yrs elapsed => ~37 payments made.
-    orig = BALANCE
-    for _ in range(37):
-        orig = (orig + PAYMENT) / (1 + BIWEEKLY_RATE)
+    # Original principal, fitted to the app's "Summary of 2025" (interest $9,929.83,
+    # principal $6,416.85, additional principal $3,000): funded ~Jun 9 2025, first
+    # payment Jul 7 2025, 13 payments + interest adjustment in 2025. Fit error ~$100.
+    orig = 508_170.0
     cap_lump = 0.10 * orig
+    # What the 2025 $3,000 prepayment is worth (counterfactual: balance today higher by
+    # 3000 grown ~29 periods).
+    grown = 3000 * (1 + BIWEEKLY_RATE) ** 29
+    nolump = simulate(balance=BALANCE + grown)
+    print(f"\n== Effect of the $3,000 prepaid in 2025 ==")
+    print(f"balance today without it {fmt(BALANCE+grown)}; lifetime interest {fmt(nolump['interest'])} "
+          f"vs {fmt(base['interest'])} -> saved {fmt(nolump['interest']-base['interest'])}, "
+          f"{(nolump['n']-base['n'])/26*12:.1f} months cut")
     print(f"\n== CIBC Fixed Rate Closed privileges ==")
     print(f"estimated original principal ~{fmt(orig)}  -> 10% lump-sum cap ~{fmt(cap_lump)} per year")
     print(f"payment may rise up to 100% of original payment -> up to ~{fmt(PAYMENT*2)} bi-weekly")
